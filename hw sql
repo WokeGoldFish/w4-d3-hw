@@ -1,0 +1,94 @@
+-- DDL Commands 
+CREATE TABLE customer (
+	customer_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	email VARCHAR(50),
+	rewards_club BOOLEAN
+);
+
+CREATE TABLE concession(
+	concession_id SERIAL PRIMARY KEY,
+	concession_name VARCHAR(50),
+	customer_id INTEGER,
+	total NUMERIC(10,2),
+	payment_method VARCHAR(50),
+	rewards_club BOOLEAN,
+	FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+CREATE TABLE tix(
+	tix_id SERIAL PRIMARY KEY,
+	movie_name VARCHAR (40),
+	date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	theater_number INTEGER,
+	total NUMERIC(10,2),
+	payment_method VARCHAR (40)
+);
+
+CREATE TABLE customer_tix(
+	customer_tix_id SERIAL PRIMARY KEY,
+	customer_id INTEGER,
+	tix_id INTEGER,
+	FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+	
+	FOREIGN KEY (tix_id) REFERENCES tix(tix_id)
+);
+
+CREATE TABLE movie (
+	movie_id SERIAL PRIMARY KEY,
+	time INTEGER,
+	rating VARCHAR (50),
+	tix_id INTEGER,
+	Foreign key (tix_id) REFERENCES tix(tix_id)
+);
+
+
+
+-- DML 
+INSERT INTO customer (
+	first_name, last_name, email, rewards_club
+) Values (
+	'francis', 'pyon', 'francis@mmmal', TRUE
+);
+INSERT INTO customer (
+	first_name, last_name, email, rewards_club
+) Values (
+	'pp', 'pyon', 'pp@mmmal', FALSE
+);
+INSERT INTO concession (
+	concession_name, total, payment_method, rewards_club
+) Values (
+	'mnm', '25.00', 'CASH', FALSE
+);
+INSERT INTO concession (
+	concession_name, total, payment_method, rewards_club
+) Values (
+	'skittles', '25.00', 'CASH', FALSE
+);
+
+
+INSERT INTO tix(
+	movie_name, theater_number, total, payment_method
+) Values (
+	'mulan', 5, 100.00, 'CASH'
+);
+INSERT INTO tix(
+	movie_name, theater_number, total, payment_method
+) Values (
+	'Avengers', 15, 100.00, 'CASH'
+);
+
+INSERT INTO movie(
+	time, rating
+) Values (
+	1234, 'PG'
+);
+
+INSERT INTO movie(
+	time, rating
+) Values (
+	1234, 'PG-13'
+);
+
+select  * from tix
